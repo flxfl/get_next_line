@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: smlkshk <smlkshk@student.21-school.ru>     +#+  +:+       +#+        */
+/*   By: smlkshk <smlkshk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/19 12:54:32 by smlkshk           #+#    #+#             */
-/*   Updated: 2021/10/19 15:31:23 by smlkshk          ###   ########.fr       */
+/*   Updated: 2021/11/27 18:00:44 by smlkshk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	*ft_memmove(void *dst, const void *src, int n);
 int		ft_strlcat(char *dst, const char *src, int dstsize);
 char	*ft_strjoin(char const *s1, char const *s2);
 char	*ft_substr(char const *s, int start, int end);
-void	ft_strdel(char **as);
+void	ft_strrem(char **as);
 
 char	*ft_strchr(const char *s, int c);
 

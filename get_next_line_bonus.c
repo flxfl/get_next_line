@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: smlkshk <smlkshk@student.21-school.ru>     +#+  +:+       +#+        */
+/*   By: smlkshk <smlkshk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/19 12:54:26 by smlkshk           #+#    #+#             */
-/*   Updated: 2021/10/19 15:58:03 by smlkshk          ###   ########.fr       */
+/*   Updated: 2021/11/27 18:09:46 by smlkshk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line_bonus.h"
-#include <stdio.h>
 
 char	*ft_strchr(const char *s, int c)
 {
@@ -54,12 +53,12 @@ char	*ft_substr(char const *s, int start, int len)
 	return (subs);
 }
 
-void	ft_strdel(char **string)
+void	ft_strrem(char **string)
 {
 	if (string)
 	{
 		free(*string);
-		*string = NULL;
+		*string = (void *)0;
 	}
 }
 
@@ -76,17 +75,16 @@ char	*string_creator(int fd, char **string)
 	if (!string[fd][i])
 	{
 		line = ft_strdup(string[fd]);
-		ft_strdel(&string[fd]);
+		ft_strrem(&string[fd]);
 	}
 	else if (string[fd][i] == '\n')
 	{
 		line = ft_substr(string[fd], 0, i + 1);
 		saver = ft_strdup(string[fd] + i + 1);
-		ft_strdel(&string[fd]);
+		ft_strrem(&string[fd]);
 		string[fd] = saver;
-		//printf("pointer to str[fd] in string_creator: %p\n", string[fd]);
 		if (string[fd][0] == '\0')
-			ft_strdel(&string[fd]);
+			ft_strrem(&string[fd]);
 	}
 	return (line);
 }
@@ -95,29 +93,22 @@ char	*get_next_line(int fd)
 {
 	int			bytes;
 	char		*saver;
-	char		buf[BUFFER_SIZE];
+	char		buf[BUFFER_SIZE + 1];
 	static char	*string[10200];
-	//int i = 0;
 
-	if (fd < 0 || fd > 10200 || BUFFER_SIZE <= 0)
+	if (fd < 0 || fd > 10199 || BUFFER_SIZE <= 0)
 		return ((void *)0);
 	bytes = read(fd, buf, BUFFER_SIZE);
 	while (bytes > 0)
 	{
-		//i++;
 		*(buf + bytes) = '\0';
 		if (!*(string + fd))
 			*(string + fd) = ft_strdup("");
-		//printf("pointer to str[fd] on i=%d: %p\n", i, string + fd);
 		saver = ft_strjoin(*(string + fd), buf);
-		ft_strdel(string + fd);
+		ft_strrem(string + fd);
 		*(string + fd) = saver;
-		//printf("string on i=%d: \'%s\'\n", i, *(string + fd));
 		if (ft_strchr(*(string + fd), '\n'))
-		{
-			//printf("\\n has been found!\n");
 			break ;
-		}
 		bytes = read(fd, buf, BUFFER_SIZE);
 	}
 	if (bytes < 0 || (bytes == 0 && !*(string + fd)))
